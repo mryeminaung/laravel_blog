@@ -37,7 +37,7 @@ class ArticleController extends Controller
     public function store(Request $request)
     {
         $validator = validator(request()->all(), [
-            'title' => 'required|min:2',
+            'title' => 'required',
             'body' => 'required',
             'category_id' => 'required',
         ]);
@@ -71,16 +71,37 @@ class ArticleController extends Controller
      */
     public function edit(Article $article)
     {
-        dd($article);
-        // return view('articles.');
+        $data = [
+            ["id" => 1, "name" => "News"],
+            ["id" => 2, "name" => "Tech"],
+            ["id" => 3, "name" => "Football"],
+            ["id" => 4, "name" => "Beauty"],
+        ];
+        return view('articles.edit', ['article' => $article, 'categories' => $data]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Article $article)
     {
-        //
+        $validator = validator(request()->all(), [
+            'title' => 'required',
+            'body' => 'required',
+            'category_id' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator);
+        }
+
+        $article->update([
+            'title' => $request->title,
+            'slug' => strtolower(str_replace(' ', '-', $request->title)),
+            'body' => $request->body,
+            'category_id' => $request->category_id
+        ]);
+        return redirect(route('articles.show', $article))->with('message', 'An Article updated successfully');
     }
 
     /**
