@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\article\ArticleController;
-use App\Http\Controllers\product\ProductController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -17,15 +16,21 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
 
-Route::get('/articles', [ArticleController::class, 'index']);
-Route::get('/articles/detail/{id}', [ArticleController::class, 'show']);
-Route::get('/articles/delete/{id}', [ArticleController::class, 'destroy']);
+Route::get('/articles', [ArticleController::class, 'index'])->name('articles.index');
 
-Route::get('/products', [ProductController::class, 'index']);
-Route::get('/products/{id}', [ProductController::class, 'show']);
+Route::get('/articles/detail/{article:slug}', [ArticleController::class, 'show'])->name('articles.show');
+Route::get('/articles/delete/{article}', [ArticleController::class, 'destroy'])->name('articles.destroy');
+
+Route::get('/articles/create', [ArticleController::class, 'create'])->name('articles.create');
+Route::post('/articles/store', [ArticleController::class, 'store'])->name('articles.store');
+
+Route::get('/articles/{article}/edit', [ArticleController::class, 'edit'])->name('articles.edit');
+Route::post('/articles/store', [ArticleController::class, 'store'])->name('articles.store');
+
+
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

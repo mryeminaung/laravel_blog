@@ -18,8 +18,9 @@ class ArticleFactory extends Factory
     {
         return [
             'title' => $this->faker->sentence,
+            'slug' => $this->faker->slug(4),
             'body' => $this->faker->paragraph,
-            'category_id' => rand(1, 5),
+            'category_id' => rand(1, 4),
         ];
     }
 }

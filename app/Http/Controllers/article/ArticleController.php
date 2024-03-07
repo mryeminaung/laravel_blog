@@ -13,9 +13,22 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        $data  = Article::latest()->paginate(2);
-        // dd($data);
-        return view('articles.index', ['articles' => $data]);
+        $articles  = Article::latest()->paginate(5);
+        return view('articles.index', ['articles' => $articles]);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        $data = [
+            ["id" => 1, "name" => "News"],
+            ["id" => 2, "name" => "Tech"],
+            ["id" => 3, "name" => "Football"],
+            ["id" => 4, "name" => "Beauty"],
+        ];
+        return view("articles.add", ['categories' => $data]);
     }
 
     /**
@@ -23,16 +36,43 @@ class ArticleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = validator(request()->all(), [
+            'title' => 'required|min:2',
+            'body' => 'required',
+            'category_id' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator);
+        }
+
+        $article = new Article();
+
+        $article->title = $request->title;
+        $article->body = $request->body;
+        $article->slug = strtolower(str_replace(' ', '-', $request->title));
+        $article->category_id = $request->category_id;
+
+        $article->save();
+
+        return redirect(route('articles.show', $article));
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Article $article)
     {
-        $data = Article::find($id);
-        return view('articles.detail', ['article' => $data]);
+        return view('articles.detail', ['article' => $article]);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(Article $article)
+    {
+        dd($article);
+        // return view('articles.');
     }
 
     /**
@@ -46,10 +86,9 @@ class ArticleController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Article $article)
     {
-        $data = Article::find($id);
-        $data->delete();
-        return redirect('/articles');
+        $article->delete();
+        return redirect(route('articles.index'))->with('message', 'An Article deleted successfully');
     }
 }
