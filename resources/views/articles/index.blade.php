@@ -14,11 +14,11 @@
         @foreach ($articles as $article)
             <div class="card mb-2">
                 <div class="card-body">
-                    <div class="d-flex gap-2">
+                    <div class="d-flex gap-2 ">
                         <h5 class="card-title">
                             {{ $article->title }}
                         </h5>
-                        <p class="badge text-bg-secondary">
+                        <p class="badge h-25 text-bg-secondary">
                             {{ $article->category['name'] }}
                         </p>
                     </div>

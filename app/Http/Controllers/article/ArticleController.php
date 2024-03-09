@@ -4,6 +4,8 @@ namespace App\Http\Controllers\article;
 
 use App\Http\Controllers\Controller;
 use App\Models\Article;
+use App\Models\Category;
+use App\Models\Comment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
@@ -15,17 +17,12 @@ class ArticleController extends Controller
     public function index()
     {
         $articles  = Article::latest()->paginate(5);
-        $data = [
-            ["id" => 1, "name" => "News"],
-            ["id" => 2, "name" => "Tech"],
-            ["id" => 3, "name" => "Football"],
-            ["id" => 4, "name" => "Beauty"],
-        ];
+        $categories = Category::all();
 
         // store the filtered url's state as session variable
         Session::put('pre_url', request()->fullUrl());
 
-        return view('articles.index', ['articles' => $articles, 'categories' => $data]);
+        return view('articles.index', ['articles' => $articles, 'categories' => $categories, 'filtered' => $articles]);
     }
 
     /**
@@ -33,13 +30,9 @@ class ArticleController extends Controller
      */
     public function create()
     {
-        $data = [
-            ["id" => 1, "name" => "News"],
-            ["id" => 2, "name" => "Tech"],
-            ["id" => 3, "name" => "Football"],
-            ["id" => 4, "name" => "Beauty"],
-        ];
-        return view("articles.add", ['categories' => $data]);
+        $categories = Category::all();
+
+        return view("articles.add", ['categories' => $categories]);
     }
 
     /**
@@ -82,13 +75,9 @@ class ArticleController extends Controller
      */
     public function edit(Article $article)
     {
-        $data = [
-            ["id" => 1, "name" => "News"],
-            ["id" => 2, "name" => "Tech"],
-            ["id" => 3, "name" => "Football"],
-            ["id" => 4, "name" => "Beauty"],
-        ];
-        return view('articles.edit', ['article' => $article, 'categories' => $data]);
+        $categories = Category::all();
+
+        return view('articles.edit', ['article' => $article, 'categories' => $categories]);
     }
 
     /**

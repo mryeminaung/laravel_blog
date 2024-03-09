@@ -6,6 +6,7 @@ namespace Database\Seeders;
 
 use App\Models\Article;
 use App\Models\Category;
+use App\Models\Comment;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -17,24 +18,17 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(10)->create();
 
-        Category::create([
-            "name" => "News"
-        ]);
+        $categories = ["News", "Tech", "Football", "Basketball", "Frontend", "Backend", "Asian", "European"];
 
-        Category::create([
-            "name" => "Tech"
-        ]);
-
-        Category::create([
-            "name" => "Football"
-        ]);
-
-        Category::create([
-            "name" => "Beauty"
-        ]);
+        foreach ($categories as $category) {
+            Category::create([
+                "name" => $category
+            ]);
+        }
 
         Article::factory()->count(10)->create();
         // Category::factory()->count(5)->create();
+        Comment::factory()->count(50)->create();
 
         // \App\Models\User::factory()->create([
         //     'name' => 'Test User',

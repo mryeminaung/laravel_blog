@@ -19,7 +19,7 @@
                         {{ $article->title }}
                     </h5>
                     <p class="badge text-bg-secondary">
-                        {{ $article->category['name'] }}
+                        {{ $article->category->name }}
                     </p>
                 </div>
                 <div class="card-subtitle mb-2 text-muted small">
@@ -34,6 +34,18 @@
                     Delete
                 </a>
             </div>
+        </div>
+        <div class="my-2">
+            <ul class="list-group">
+                <li class="list-group-item active">
+                    <b>Comments ({{ count($article->comments) }})</b>
+                </li>
+                @foreach ($article->comments as $comment)
+                    <li class="list-group-item">
+                        {{ $comment->content }}
+                    </li>
+                @endforeach
+            </ul>
         </div>
     </div>
 @endsection
