@@ -11,4 +11,9 @@ class Article extends Model
     protected $tableName = "articles";
     protected $primaryKey = "id";
     protected $fillable = ['title', 'slug', 'body', 'category_id'];
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
 }

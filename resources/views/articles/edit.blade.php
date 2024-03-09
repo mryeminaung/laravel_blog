@@ -36,6 +36,9 @@
                     @endforeach
                 </select>
             </div>
+            <a href="/articles/detail/{{ $article->slug }}" class="btn btn-secondary">
+                Cancel
+            </a>
             <input type="submit" value="Submit" class="btn btn-primary">
         </form>
     </div>

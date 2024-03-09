@@ -10,12 +10,20 @@
             </div>
         @endif
 
+        <a class="btn btn-primary mb-3" href="{{ url(session('pre_url') ?? '/articles') }}" role="button">Back to home</a>
 
         <div class="card mb-2">
             <div class="card-body">
-                <h5 class="card-title">{{ $article->title }}</h5>
+                <div class="d-flex gap-2">
+                    <h5 class="card-title">
+                        {{ $article->title }}
+                    </h5>
+                    <p class="badge text-bg-secondary">
+                        {{ $article->category['name'] }}
+                    </p>
+                </div>
                 <div class="card-subtitle mb-2 text-muted small">
-                    {{ $article->created_at->diffForHumans() }}
+                    {{ $article->updated_at->diffForHumans() }}
                 </div>
                 <p class="card-text">{{ $article->body }}</p>
 
@@ -25,7 +33,6 @@
                 <a class="btn btn-danger" href="{{ url("/articles/delete/$article->id") }}">
                     Delete
                 </a>
-
             </div>
         </div>
     </div>

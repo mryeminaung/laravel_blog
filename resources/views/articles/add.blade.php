@@ -33,6 +33,9 @@
                     @endforeach
                 </select>
             </div>
+            <a href="{{ session('pre_url') ?? url('/articles') }}" class="btn btn-secondary">
+                Cancel
+            </a>
             <input type="submit" value="Add Article" class="btn btn-primary">
         </form>
     </div>

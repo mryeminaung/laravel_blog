@@ -35,7 +35,7 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
-                            <a class="nav-link text-success" href="{{ url('/articles/create') }}">
+                            <a class="btn btn-success" href="{{ url('/articles/create') }}">
                                 + Add Article
                             </a>
                         </li>
