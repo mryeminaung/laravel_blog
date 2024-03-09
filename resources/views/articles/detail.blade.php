@@ -36,16 +36,54 @@
             </div>
         </div>
         <div class="my-2">
+            @if (session('comment'))
+                <div class="alert alert-info alert-dismissible fade show" role="alert">
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    {{ session('comment') }}
+                </div>
+            @endif
             <ul class="list-group">
-                <li class="list-group-item active">
+                <li class="list-group-item active d-flex  justify-content-between align-items-center  ">
                     <b>Comments ({{ count($article->comments) }})</b>
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal"
+                        data-bs-target="#commentModal">
+                        Add Comment
+                    </button>
                 </li>
                 @foreach ($article->comments as $comment)
-                    <li class="list-group-item">
+                    <li class="list-group-item d-flex flex-column align-items-start ">
                         {{ $comment->content }}
+                        <a class="btn btn-danger btn-sm" href="{{ route('comments.delete', [$article, $comment]) }}">
+                            Delete
+                        </a>
                     </li>
                 @endforeach
             </ul>
+            <!-- Modal -->
+            <div class="modal fade" id="commentModal" tabindex="-1" aria-labelledby="commentModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="commentModalLabel">Add Comment</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <form action="{{ route('comments.create', $article) }}" method="post">
+                            @csrf
+                            <div class="modal-body">
+                                <input type="hidden" name="article_id" value="{{ $article->id }}">
+                                <textarea name="content" class="form-control mb-2" placeholder="New Comment" required></textarea>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <input type="submit" value="Add Comment" class="btn btn-primary">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
+
+
     </div>
 @endsection

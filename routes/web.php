@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\article\ArticleController;
+use App\Http\Controllers\comment\CommentController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -35,6 +36,12 @@ Route::post('/articles/store', [ArticleController::class, 'store'])->name('artic
 Route::get('/articles/{article}/edit', [ArticleController::class, 'edit'])->name('articles.edit');
 // update article
 Route::match(['put', 'patch'], '/articles/update/{article}', [ArticleController::class, 'update'])->name('articles.update');
+
+// add new comment
+Route::post('/articles/detail/{article:slug}/comments/add', [CommentController::class, 'create'])->name("comments.create");
+
+// delete comment
+Route::get('/articles/detail/{article:slug}/comments/{comment}/delete', [CommentController::class, 'delete'])->name("comments.delete");
 
 Auth::routes();
 

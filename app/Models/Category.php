@@ -9,7 +9,7 @@ class Category extends Model
 {
     use HasFactory;
     protected $tableName = 'categories';
-    // protected $guarded = ['id'];
+    protected $guarded = ['id'];
     protected $fillable = ['name'];
 
     public function article()
