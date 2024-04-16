@@ -27,12 +27,14 @@
                 </div>
                 <p class="card-text">{{ $article->body }}</p>
 
-                <a class="btn btn-warning" href="{{ route('articles.edit', $article) }}">
-                    Edit
-                </a>
-                <a class="btn btn-danger" href="{{ url("/articles/delete/$article->id") }}">
-                    Delete
-                </a>
+                @auth
+                    <a class="btn btn-warning" href="{{ route('articles.edit', $article) }}">
+                        Edit
+                    </a>
+                    <a class="btn btn-danger" href="{{ url("/articles/delete/$article->id") }}">
+                        Delete
+                    </a>
+                @endauth
             </div>
         </div>
         <div class="my-2">
@@ -46,17 +48,24 @@
                 <li class="list-group-item active d-flex  justify-content-between align-items-center  ">
                     <b>Comments ({{ count($article->comments) }})</b>
                     <!-- Button trigger modal -->
-                    <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal"
-                        data-bs-target="#commentModal">
-                        Add Comment
-                    </button>
+                    @auth
+                        <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal"
+                            data-bs-target="#commentModal">
+                            Add Comment
+                        </button>
+                    @endauth
                 </li>
                 @foreach ($article->comments as $comment)
-                    <li class="list-group-item d-flex flex-column align-items-start ">
+                    <li class="list-group-item d-flex flex-column align-items-start">
                         {{ $comment->content }}
-                        <a class="btn btn-danger btn-sm" href="{{ route('comments.delete', [$article, $comment]) }}">
-                            Delete
-                        </a>
+                        @auth
+                            @if ($comment->user_id === auth()->user()->id)
+                                <a class="btn btn-danger btn-sm"
+                                    href="{{ route('comments.delete', ['article' => $article->id, 'comment' => $comment->id]) }}">
+                                    Delete
+                                </a>
+                            @endif
+                        @endauth
                     </li>
                 @endforeach
             </ul>

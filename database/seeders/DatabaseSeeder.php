@@ -7,6 +7,7 @@ namespace Database\Seeders;
 use App\Models\Article;
 use App\Models\Category;
 use App\Models\Comment;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -25,6 +26,18 @@ class DatabaseSeeder extends Seeder
                 "name" => $category
             ]);
         }
+
+        User::factory()->create([
+            'name' => 'Alice',
+            'email' => 'alice@mail.com',
+            'password' => 123,
+        ]);
+
+        User::factory()->create([
+            'name' => 'Bob',
+            'email' => 'bob@mail.com',
+            'password' => 456
+        ]);
 
         Article::factory()->count(10)->create();
         // Category::factory()->count(5)->create();

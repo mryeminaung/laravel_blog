@@ -11,13 +11,14 @@ class CommentFactory extends Factory
 {
     /**
      * Define the model's default state.
-     *
+     *j
      * @return array<string, mixed>
      */
     public function definition(): array
     {
         return [
             'content' => $this->faker->paragraph,
+            'user_id' => rand(1, 2),
             'article_id' => rand(1, 10),
         ];
     }

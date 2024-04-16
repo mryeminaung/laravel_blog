@@ -20,6 +20,7 @@ class ArticleFactory extends Factory
             'title' => $this->faker->sentence,
             'slug' => $this->faker->slug(4),
             'body' => $this->faker->paragraph,
+            'user_id' => rand(1, 2),
             'category_id' => rand(1, 4),
         ];
     }
